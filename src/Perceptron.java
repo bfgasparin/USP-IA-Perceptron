@@ -46,6 +46,12 @@ public class Perceptron {
 	};
 
 
+	/**
+	 * Construtor
+	 *
+	 * @param double learningFactor A taxa de aprendizado
+	 * @param double activationThreshold O limiar de ativação
+	 */
 	public Perceptron(double learningFactor, double activationThreshold) {
 
 		nbrInputNeurons = this.inputData[0].length; 
