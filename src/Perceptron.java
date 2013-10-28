@@ -34,7 +34,7 @@ public class Perceptron {
 	/**
 	  * Esta é a matriz de dados de entrada. O conjunto de dados de treinamento que 
 	  */
-	public int[][] trainingSet;
+	public int[][] patterns;
 
 	/**
 	  * Esta é a matriz da resposta esperada.
@@ -50,12 +50,13 @@ public class Perceptron {
 	 * @param double learningFactor A taxa de aprendizado
 	 * @param double activationThreshold O limiar de ativação
 	 */
-	public Perceptron(int[][] trainingSet, int[][] targets, double learningFactor, double activationThreshold) 
+	public Perceptron(int[][] patterns, int[][] targets, double learningFactor, double activationThreshold) 
 	{
-		this.trainingSet = trainingSet;
+		this.patterns = patterns;
 		this.targets = targets;
-		nbrInputNeurons = this.trainingSet[0].length; 
+		nbrInputNeurons = this.patterns[0].length; 
 		nbrOutputNeurons = this.targets[0].length; 
+
 		/**
 		 * Constroi a matriz de pesos do perceptron.
 		 * É necessário uma matriz carteziano pois cada neurônio de entrada 
@@ -105,12 +106,12 @@ public class Perceptron {
 	 *
 	 * @return True se todas as respostas da rede foram iguais as respostas esperadas. False caso contrário
 	 */
-	protected boolean train(int[][] trainingSet)
+	protected boolean train()
 	{
 		 double entry = 0;
 		 boolean $allRight = true;
 
-		 for (int i = 0; i < this.trainingSet.length; i++) {
+		 for (int i = 0; i < this.patterns.length; i++) {
 		 		//cada registro de result representa o valor de cada reurônio de saída da rede
 		 		int[] result = new int[nbrOutputNeurons]; 
 		 	    
@@ -132,7 +133,7 @@ public class Perceptron {
 
 	/**
 	 * Retorna o valor de entrada do neurónio de acordo o dados de entrada 
-	 * da linha trainingSet[input] 
+	 * da linha patterns[input] 
 	 * para o respectivo neurônio de saida output
 	 *
 	 * @return O valor de entrada
@@ -141,7 +142,7 @@ public class Perceptron {
 	{
 		double yin = 0;
 		//recupera os dados da epoca
-		int[] trainingData = this.trainingSet[input];
+		int[] trainingData = this.patterns[input];
 		
 		//Calcula o valor de entrada (somatória)
 		for (int i = 0; i < trainingData.length ;i++) {
@@ -169,7 +170,7 @@ public class Perceptron {
 	/**
 	 * Altera os pesos de todas as conexões caso o 
 	 * result não seja o esperado. O input serve para saber 
-	 * em qual trainingSet está sendo trabalhado
+	 * em qual patterns está sendo trabalhado
 	 * @return retorna true se algum peso foi alterado. False caso contrário
 	 */
 	protected boolean fixNet(int[] result, int input)
@@ -182,7 +183,7 @@ public class Perceptron {
 
 					for (int j = 0; j < this.weights.length ; j++) {
 							fixed = true;
-							this.weights[j][i] = this.weights[j][i] + learningFactor*targets[input][i]*trainingSet[input][j];
+							this.weights[j][i] = this.weights[j][i] + learningFactor*targets[input][i]*patterns[input][j];
 					}
 					//Não pode esquecer de atualizar o peso da bias
 					this.bias = this.bias + learningFactor*targets[input][i];
@@ -199,6 +200,8 @@ public class Perceptron {
 		int problemType = Integer.parseInt((args[6]));
 
 		NeuralNetDataHandlerInterface handler;
+
+		//Idenfitica qual é o problema para escolher qual Filehandler irá utilizar
 		if(0 == problemType){
 		 	handler = new BreastCancerWisconsinFileHandler(args[0], !(0 == Integer.parseInt((args[7]))));
 		}else if(1 == problemType){
@@ -206,20 +209,24 @@ public class Perceptron {
 		}else{
 			throw new Exception("Você deve passar 0 ou 1 no argumento de Tipo de Problema");
 		}
+
+		//Busca os dados de treinamento
 		int[][] trainingSet = handler.getTrainingSet();
 		int[][] targets = handler.getTrainingTargetsSet();
 
+		//Inicia a rede neural
 		Perceptron perceptron = new Perceptron(trainingSet, targets, Double.parseDouble(args[3]), 0.5);
 		
-
 		System.out.println("Taxa de aprendizado: " + perceptron.learningFactor);
 		System.out.println("Limiar de ativação: " + perceptron.activationThreshold);
 		System.out.println();
 		System.out.println("Pesos dos axiomas antes do treinamento: ");
 
 		perceptron.printWeights();
+
 		while(!stop){
-			stop = perceptron.train(perceptron.trainingSet);	
+			//Treina a rede reural
+			stop = perceptron.train();	
 			System.out.println();
 			System.out.println("Pesos dos axiomas depois da epoca: "+epoca++);
 			perceptron.printWeights();
