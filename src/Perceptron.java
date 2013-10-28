@@ -1,6 +1,11 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 /**
  * 
  * Este Classe é a implementação do Single-Layered Perceptron 
@@ -13,6 +18,7 @@ import java.text.NumberFormat;
  */
 public class Perceptron {
 	
+
 	public int nbrInputNeurons; // número de neurônios na camada de entrada
 	public int nbrOutputNeurons; // número de neurônios na camada de saída
 	//int nbrInstancces = instances.length; // número de instancias apresentados em cada época
@@ -28,34 +34,28 @@ public class Perceptron {
 	/**
 	  * Esta é a matriz de dados de entrada. O conjunto de dados de treinamento que 
 	  */
-	public int[][] inputData = {
-		{1,1},
-		{1,0},
-		{0,1},
-		{0,0}
-	};
+	public int[][] trainingSet;
 
 	/**
 	  * Esta é a matriz da resposta esperada.
 	  */
-	public int[][] expetedOutput = {
-		{1},
-		{1},
-		{1},
-		{-1}
-	};
+	public int[][] targets;
 
 
 	/**
 	 * Construtor
 	 *
+	 * @param int[][] O conjunto de dados de entrada
+	 * @param int[][] O conjunto de saídas esperadas da associados aos dados de entrada
 	 * @param double learningFactor A taxa de aprendizado
 	 * @param double activationThreshold O limiar de ativação
 	 */
-	public Perceptron(double learningFactor, double activationThreshold) {
-
-		nbrInputNeurons = this.inputData[0].length; 
-		nbrOutputNeurons = this.expetedOutput[0].length; 
+	public Perceptron(int[][] trainingSet, int[][] targets, double learningFactor, double activationThreshold) 
+	{
+		this.trainingSet = trainingSet;
+		this.targets = targets;
+		nbrInputNeurons = this.trainingSet[0].length; 
+		nbrOutputNeurons = this.targets[0].length; 
 		/**
 		 * Constroi a matriz de pesos do perceptron.
 		 * É necessário uma matriz carteziano pois cada neurônio de entrada 
@@ -105,12 +105,12 @@ public class Perceptron {
 	 *
 	 * @return True se todas as respostas da rede foram iguais as respostas esperadas. False caso contrário
 	 */
-	protected boolean train(int[][] inputData)
+	protected boolean train(int[][] trainingSet)
 	{
 		 double entry = 0;
 		 boolean $allRight = true;
 
-		 for (int i = 0; i < this.inputData.length; i++) {
+		 for (int i = 0; i < this.trainingSet.length; i++) {
 		 		//cada registro de result representa o valor de cada reurônio de saída da rede
 		 		int[] result = new int[nbrOutputNeurons]; 
 		 	    
@@ -132,16 +132,16 @@ public class Perceptron {
 
 	/**
 	 * Retorna o valor de entrada do neurónio de acordo o dados de entrada 
-	 * da linha inputData[input] 
+	 * da linha trainingSet[input] 
 	 * para o respectivo neurônio de saida output
 	 *
-	 * @return Double O valor de entrada
+	 * @return O valor de entrada
 	 */
 	protected double getEntryData(int input, int output)
 	{
 		double yin = 0;
 		//recupera os dados da epoca
-		int[] trainingData = this.inputData[input];
+		int[] trainingData = this.trainingSet[input];
 		
 		//Calcula o valor de entrada (somatória)
 		for (int i = 0; i < trainingData.length ;i++) {
@@ -169,7 +169,7 @@ public class Perceptron {
 	/**
 	 * Altera os pesos de todas as conexões caso o 
 	 * result não seja o esperado. O input serve para saber 
-	 * em qual inputData está sendo trabalhado
+	 * em qual trainingSet está sendo trabalhado
 	 * @return retorna true se algum peso foi alterado. False caso contrário
 	 */
 	protected boolean fixNet(int[] result, int input)
@@ -178,24 +178,40 @@ public class Perceptron {
 		    // para cada neurónio de saída, verifica se o resultado era o esperado
 			for (int i = 0; i < result.length ; i++) {
 				//verificação do resultado
-				if(result[i] != this.expetedOutput[input][i]){// se for diferente corrige os pesos
+				if(result[i] != this.targets[input][i]){// se for diferente corrige os pesos
 
 					for (int j = 0; j < this.weights.length ; j++) {
 							fixed = true;
-							this.weights[j][i] = this.weights[j][i] + learningFactor*expetedOutput[input][i]*inputData[input][j];
+							this.weights[j][i] = this.weights[j][i] + learningFactor*targets[input][i]*trainingSet[input][j];
 					}
 					//Não pode esquecer de atualizar o peso da bias
-					this.bias = this.bias + learningFactor*expetedOutput[input][i];
+					this.bias = this.bias + learningFactor*targets[input][i];
 				}
 			}				
 		return fixed;
 	}
 
-	public static void main(String args[])
+	public static void main(String args[]) throws Exception
 	{
+		
 		boolean stop = false; 
 		int epoca = 1;
-		Perceptron perceptron = new Perceptron(Double.parseDouble(args[0]), Double.parseDouble(args[1]));
+		int problemType = Integer.parseInt((args[6]));
+
+		NeuralNetDataHandlerInterface handler;
+		if(0 == problemType){
+		 	handler = new BreastCancerWisconsinFileHandler(args[0], !(0 == Integer.parseInt((args[7]))));
+		}else if(1 == problemType){
+			throw new Exception("O problema Optical Recognition of Handwritten Digits ainda não está inplementado");
+		}else{
+			throw new Exception("Você deve passar 0 ou 1 no argumento de Tipo de Problema");
+		}
+		int[][] trainingSet = handler.getTrainingSet();
+		int[][] targets = handler.getTrainingTargetsSet();
+
+		Perceptron perceptron = new Perceptron(trainingSet, targets, Double.parseDouble(args[3]), 0.5);
+		
+
 		System.out.println("Taxa de aprendizado: " + perceptron.learningFactor);
 		System.out.println("Limiar de ativação: " + perceptron.activationThreshold);
 		System.out.println();
@@ -203,12 +219,14 @@ public class Perceptron {
 
 		perceptron.printWeights();
 		while(!stop){
-			stop = perceptron.train(perceptron.inputData);	
+			stop = perceptron.train(perceptron.trainingSet);	
 			System.out.println();
 			System.out.println("Pesos dos axiomas depois da epoca: "+epoca++);
 			perceptron.printWeights();
 		}
 		
 	}
+
+
 
 }
