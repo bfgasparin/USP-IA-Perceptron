@@ -13,7 +13,7 @@ interface NeuralNetDataHandlerInterface
 	 *
 	 * Retorna o conjunto de dados de treinamento para a Rede Neural
 	 */	
-	public int[][] getTrainingSet();
+	public double[][] getTrainingSet();
 
 	/**
 	 *
@@ -27,7 +27,7 @@ interface NeuralNetDataHandlerInterface
 	 *
 	 * Retorna o conjunto de dados para validção da Rede Neural
 	 */	
-	public int[][] getValidationSet();
+	public double[][] getValidationSet();
 
 	/**
 	 *
@@ -42,7 +42,7 @@ interface NeuralNetDataHandlerInterface
 	 *
 	 * Retorna o conjunto de dados de entrada para Teste da para a Rede Neural
 	 */	
-	public int[][] getTestSet();		
+	public double[][] getTestSet();		
 
 	/**
 	 *

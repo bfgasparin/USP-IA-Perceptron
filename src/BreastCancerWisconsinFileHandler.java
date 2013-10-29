@@ -12,11 +12,11 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 
 	public static final int NUMBER_OF_ATTRIBUTES = 2;
 
-	protected int[][] trainingSet;
+	protected double[][] trainingSet;
 	protected int[][] trainingTargetSet;
-	protected int[][] validationSet;
+	protected double[][] validationSet;
 	protected int[][] validationTargetSet;
-	protected int[][] testSet;
+	protected double[][] testSet;
 	protected int[][] testTargetSet;
 	protected boolean randomTraining;
 
@@ -35,7 +35,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	/**
 	 * @inheritDoc
 	 */	
-	public int[][] getTrainingSet() 
+	public double[][] getTrainingSet() 
 	{
 		if(this.trainingSet == null || this.randomTraining){
 			if(this.randomTraining)
@@ -63,7 +63,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	/**
 	 * @inheritDoc
 	 */	
-	public int[][] getValidationSet() 
+	public double[][] getValidationSet() 
 	{
 		if(this.validationSet == null){
 			this.validationSet = this.getPatternSetFrom(this.validationData);
@@ -78,7 +78,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	public int[][] getValidationTargetsSet() 
 	{
 		if(this.validationTargetSet == null){
-			this.validationTargetSet = this.getPatternSetFrom(this.validationData);
+			this.validationTargetSet = this.getTargetsSetFrom(this.validationData);
 		}
 
 		return this.validationTargetSet;
@@ -87,7 +87,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	/**
 	 * @inheritDoc
 	 */	
-	public int[][] getTestSet() 
+	public double[][] getTestSet() 
 	{
 		if(this.testSet == null){
 			this.testSet = this.getPatternSetFrom(this.testData);
@@ -102,7 +102,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	public int[][] getTestTargetsSet() 
 	{
 		if(this.testTargetSet == null){
-			this.testTargetSet = this.getPatternSetFrom(this.testData);
+			this.testTargetSet = this.getTargetsSetFrom(this.testData);
 		}
 
 		return this.testTargetSet;
@@ -126,19 +126,19 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 		return targetSet;
 	}
 
-	public int[][] getPatternSetFrom(List<String> data) 
+	public double[][] getPatternSetFrom(List<String> data) 
 	{
 
-		int[][] patternSet = new int[data.size()][BreastCancerWisconsinFileHandler.NUMBER_OF_ATTRIBUTES];
+		double[][] patternSet = new double[data.size()][BreastCancerWisconsinFileHandler.NUMBER_OF_ATTRIBUTES];
 		Iterator<String> iterator = data.iterator();
 
 		int inputIndex = 0;
 		while (iterator.hasNext()) {				
 			String[] attributes = iterator.next().split(",");	
-			int[] input = new int[BreastCancerWisconsinFileHandler.NUMBER_OF_ATTRIBUTES];
+			double[] input = new double[BreastCancerWisconsinFileHandler.NUMBER_OF_ATTRIBUTES];
 
 			for (int j = 2; j < attributes.length; j++) {
-				input[j - 2] = Integer.parseInt(attributes[j]);
+				input[j - 2] = Double.parseDouble(attributes[j]);
 
 			}
 

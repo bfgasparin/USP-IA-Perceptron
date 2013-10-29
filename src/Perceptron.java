@@ -34,7 +34,7 @@ public class Perceptron {
 	/**
 	  * Esta é a matriz de dados de entrada. O conjunto de dados de treinamento que 
 	  */
-	public int[][] patterns;
+	public double[][] patterns;
 
 	/**
 	  * Esta é a matriz da resposta esperada.
@@ -50,7 +50,7 @@ public class Perceptron {
 	 * @param double learningFactor A taxa de aprendizado
 	 * @param double activationThreshold O limiar de ativação
 	 */
-	public Perceptron(int[][] patterns, int[][] targets, double learningFactor, double activationThreshold) 
+	public Perceptron(double[][] patterns, int[][] targets, double learningFactor, double activationThreshold) 
 	{
 		this.patterns = patterns;
 		this.targets = targets;
@@ -142,7 +142,7 @@ public class Perceptron {
 	{
 		double yin = 0;
 		//recupera os dados da epoca
-		int[] trainingData = this.patterns[input];
+		double[] trainingData = this.patterns[input];
 		
 		//Calcula o valor de entrada (somatória)
 		for (int i = 0; i < trainingData.length ;i++) {
@@ -211,7 +211,7 @@ public class Perceptron {
 		}
 
 		//Busca os dados de treinamento
-		int[][] trainingSet = handler.getTrainingSet();
+		double[][] trainingSet = handler.getTrainingSet();
 		int[][] targets = handler.getTrainingTargetsSet();
 
 		//Inicia a rede neural

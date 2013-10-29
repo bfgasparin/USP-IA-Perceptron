@@ -15,7 +15,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	
 	protected String fileName;
 
-	public static final double TRAINING_DATA_AMOUNT = 0.6;
+	public static final double TRAINING_DATA_AMOUNT = 1;
 
 	/**
 	 * Construtor
@@ -56,7 +56,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract int[][] getTrainingSet();
+	public abstract double[][] getTrainingSet();
 
 	/**
 	 * @inheritDoc
@@ -66,7 +66,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract int[][] getValidationSet();
+	public abstract double[][] getValidationSet();
 
 	/**
 	 * @inheritDoc
@@ -76,7 +76,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract int[][] getTestSet();		
+	public abstract double[][] getTestSet();		
 
 	/**
 	 * @inheritDoc
