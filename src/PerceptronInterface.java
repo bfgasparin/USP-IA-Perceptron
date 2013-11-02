@@ -14,18 +14,17 @@ interface PerceptronInterface {
 	 * Usa a unidade de sáida (target) para 
 	 * corrigir os pesos das conexões dos axionios 
 	 *
-	 * @param double[]  patterns		Uma unidade de entrada
-	 * @param double[]  targets			A unidade de saída esperada para a unidade de entrada
+	 * @param double[]  pattern		Uma unidade de entrada
+	 * @param double[]  target		A unidade de saída esperada para a unidade de entrada
 	 * @return Um array com as respostas (sinais) dos neurônios da camada saída
 	 */
-	public double[] train(double[] patterns, double[] targets);
+	public double[] train(double[] pattern, double[] target);
 
 	/**
 	 * Executa a rede com com a unidade de entrada (pattern).  
 	 * 
-	 * @param double[]  patterns		Uma unidade de entrada
-	 * @param double[]  targets			A unidade de saída esperada para a unidade de entrada
+	 * @param double[]  pattern		Uma unidade de entrada
 	 * @return Um array com as respostas (sinais) dos neurônios da camada saída
 	 */
-	public double[] execute(double[] patterns);
+	public double[] execute(double[] pattern);
 }
