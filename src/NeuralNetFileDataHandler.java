@@ -61,7 +61,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract int[][] getTrainingTargetsSet();
+	public abstract double[][] getTrainingTargetsSet();
 
 	/**
 	 * @inheritDoc
@@ -71,7 +71,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract int[][] getValidationTargetsSet();
+	public abstract double[][] getValidationTargetsSet();
 
 	/**
 	 * @inheritDoc
@@ -81,7 +81,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract int[][] getTestTargetsSet();	
+	public abstract double[][] getTestTargetsSet();	
 
 
     private void log(Object msg)

@@ -13,11 +13,11 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	public static final int NUMBER_OF_ATTRIBUTES = 2;
 
 	protected double[][] trainingSet;
-	protected int[][] trainingTargetSet;
+	protected double[][] trainingTargetSet;
 	protected double[][] validationSet;
-	protected int[][] validationTargetSet;
+	protected double[][] validationTargetSet;
 	protected double[][] testSet;
-	protected int[][] testTargetSet;
+	protected double[][] testTargetSet;
 	protected boolean randomTraining;
 
 	/**
@@ -51,7 +51,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	/**
 	 * @inheritDoc
 	 */	
-	public int[][] getTrainingTargetsSet() 
+	public double[][] getTrainingTargetsSet() 
 	{
 		if(this.trainingTargetSet == null || this.randomTraining){
 			this.trainingTargetSet = this.getTargetsSetFrom(this.trainingData);
@@ -75,7 +75,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	/**
 	 * @inheritDoc
 	 */	
-	public int[][] getValidationTargetsSet() 
+	public double[][] getValidationTargetsSet() 
 	{
 		if(this.validationTargetSet == null){
 			this.validationTargetSet = this.getTargetsSetFrom(this.validationData);
@@ -99,7 +99,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	/**
 	 * @inheritDoc
 	 */	
-	public int[][] getTestTargetsSet() 
+	public double[][] getTestTargetsSet() 
 	{
 		if(this.testTargetSet == null){
 			this.testTargetSet = this.getTargetsSetFrom(this.testData);
@@ -108,9 +108,9 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 		return this.testTargetSet;
 	}
 
-	protected int[][] getTargetsSetFrom(List<String> data) 
+	protected double[][] getTargetsSetFrom(List<String> data) 
 	{
-		int[][] targetSet = new int[data.size()][2];
+		double[][] targetSet = new double[data.size()][2];
 
 		Iterator<String> iterator = data.iterator();
 
@@ -118,7 +118,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 		while (iterator.hasNext()) {
 			
 			String[] attributes = iterator.next().split(",");	
-			int[] input = {Integer.parseInt(attributes[1])};
+			double[] input = {Double.parseDouble(attributes[1])};
 			targetSet[inputIndex] = input;
 			inputIndex++;
 		}

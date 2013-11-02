@@ -39,7 +39,7 @@ public class Perceptron {
 	/**
 	  * Esta é a matriz da resposta esperada.
 	  */
-	public int[][] targets;
+	public double[][] targets;
 
 
 	/**
@@ -50,7 +50,7 @@ public class Perceptron {
 	 * @param double learningFactor A taxa de aprendizado
 	 * @param double activationThreshold O limiar de ativação
 	 */
-	public Perceptron(double[][] patterns, int[][] targets, double learningFactor, double activationThreshold) 
+	public Perceptron(double[][] patterns, double[][] targets, double learningFactor, double activationThreshold) 
 	{
 		this.patterns = patterns;
 		this.targets = targets;
@@ -212,7 +212,7 @@ public class Perceptron {
 
 		//Busca os dados de treinamento
 		double[][] trainingSet = handler.getTrainingSet();
-		int[][] targets = handler.getTrainingTargetsSet();
+		double[][] targets = handler.getTrainingTargetsSet();
 
 		//Inicia a rede neural
 		Perceptron perceptron = new Perceptron(trainingSet, targets, Double.parseDouble(args[3]), 0.5);

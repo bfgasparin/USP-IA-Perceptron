@@ -21,7 +21,7 @@ interface NeuralNetDataHandlerInterface
 	 * dos dados de trainamento. A ordem das respostas dependem da ordem dos dados de 
 	 * treinamento (@see NeuralNetDataHandlerInterface.getTrainData)
 	 */	
-	public int[][] getTrainingTargetsSet();
+	public double[][] getTrainingTargetsSet();
 
 	/**
 	 *
@@ -35,7 +35,7 @@ interface NeuralNetDataHandlerInterface
 	 * dos dados de validação. A ordem das respostas dependem da ordem dos dados de 
 	 * validação (@see NeuralNetDataHandlerInterface.getValidationData)
 	 */	
-	public int[][] getValidationTargetsSet();
+	public double[][] getValidationTargetsSet();
 
 
 	/**
@@ -50,7 +50,7 @@ interface NeuralNetDataHandlerInterface
 	 * dos dados de teste. A ordem das respostas dependem da ordem dos dados de 
 	 * teste (@see NeuralNetDataHandlerInterface.getTestData)
 	 */	
-	public int[][] getTestTargetsSet();
+	public double[][] getTestTargetsSet();
 
 
 }
