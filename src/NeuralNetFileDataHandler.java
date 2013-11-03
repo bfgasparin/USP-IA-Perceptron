@@ -13,30 +13,29 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	protected List<String> validationData;
 	protected List<String> testData;
 	
-	protected String fileName;
-
-	public static final double TRAINING_DATA_AMOUNT = 1;
+	protected String trainFilaName;
+	protected String validationFilaName;
+	protected String testFilaName;
 
 	/**
 	 * Construtor
 	 *
-	 * @param String fileName    O nome do arquivo 
+	 * @param String trainFilaName         O nome do arquivo de treinamento
+	 * @param String validationFilaName    O nome do arquivo de validação
+	 * @param String testFilaName          O nome do arquivo de teste
 	 */
-	public NeuralNetFileDataHandler(String fileName) 
+	public NeuralNetFileDataHandler(String trainFilaName, String validationFilaName, String testFilaName) 
 	{
-		this.fileName = fileName;
+		this.trainFilaName = trainFilaName;
+		this.validationFilaName = validationFilaName;
+		this.testFilaName = testFilaName;
 		
-		List<String> lines = this.extractData();
-
-		int trainingEndIndex = (int)Math.round(lines.size()*NeuralNetFileDataHandler.TRAINING_DATA_AMOUNT);
-		int validationEndIndex = trainingEndIndex + (int)((lines.size() - trainingEndIndex)/2);
-
-		trainingData = lines.subList(0, trainingEndIndex);
-		validationData = lines.subList(trainingEndIndex, validationEndIndex);
-		testData = lines.subList(validationEndIndex, lines.size());
+		trainingData = this.extractData(this.trainFilaName);
+		validationData = this.extractData(this.validationFilaName);
+		testData = this.extractData(this.testFilaName);
 	}
 
-	protected List<String> extractData() 
+	protected List<String> extractData(String fileName) 
 	{
         File file = new File(fileName);
         List<String> lines = new ArrayList<String>();
@@ -56,7 +55,7 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
 	/**
 	 * @inheritDoc
 	 */
-	public abstract double[][] getTrainingSet();
+	public abstract double[][] getTrainingSet(boolean random);
 
 	/**
 	 * @inheritDoc

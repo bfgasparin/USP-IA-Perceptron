@@ -19,20 +19,21 @@ public class Main
 		double[] result; 
 		Main main = new Main();
 		NeuralNetDataHandlerInterface handler;
+		boolean randomTraining = !(0 == Integer.parseInt((args[7])));
 
 		//Idenfitica qual é o problema para escolher qual Filehandler irá utilizar
 		if(0 == problemType){
-		 	handler = new BreastCancerWisconsinFileHandler(args[0], !(0 == Integer.parseInt((args[7]))));
+		 	handler = new BreastCancerWisconsinFileHandler(args[0], args[1], args[2]);
 		}else if(1 == problemType){
 			throw new Exception("O problema Optical Recognition of Handwritten Digits ainda não está inplementado");
 		}else if(2 == problemType){
-		 	handler = new XORFileHandler(args[0], !(0 == Integer.parseInt((args[7]))));	
+		 	handler = new XORFileHandler(args[0], args[1], args[2]);	
 		}else{
 			throw new Exception("Você deve passar 0 ou 1 no argumento de Tipo de Problema");
 		}
 
 		//Busca os dados de treinamento
-		double[][] trainingSet = handler.getTrainingSet();
+		double[][] trainingSet = handler.getTrainingSet(randomTraining);
 		double[][] targets = handler.getTrainingTargetsSet();
 
 		//Inicia a rede neural

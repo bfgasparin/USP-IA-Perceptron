@@ -18,25 +18,26 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 	protected double[][] validationTargetSet;
 	protected double[][] testSet;
 	protected double[][] testTargetSet;
-	protected boolean randomTraining;
+	protected boolean    randomTraining;
 
 	/**
 	 * Construtor
 	 *
 	 * @param String fileName    O nome do arquivo 
-	 * @param boolean randomTraining     True if the Training Set must be retrieve randomTrainingly
+	 * @param String validationFilaName    O nome do arquivo de validação
+	 * @param String testFilaName          O nome do arquivo de teste	 
 	 */
-	public BreastCancerWisconsinFileHandler(String fileName, boolean randomTraining) 
+	public BreastCancerWisconsinFileHandler(String trainFilaName, String validationFilaName, String testFilaName) 
 	{
-		super(fileName);
-		this.randomTraining = randomTraining;
+		super(trainFilaName, validationFilaName, testFilaName);
 	}
 
 	/**
 	 * @inheritDoc
 	 */	
-	public double[][] getTrainingSet() 
+	public double[][] getTrainingSet(boolean random) 
 	{
+		this.randomTraining = random;
 		if(this.trainingSet == null || this.randomTraining){
 			if(this.randomTraining)
 				Collections.shuffle(this.trainingData); 

@@ -12,8 +12,9 @@ interface NeuralNetDataHandlerInterface
 	/**
 	 *
 	 * Retorna o conjunto de dados de treinamento para a Rede Neural
+	 * @param boolean random     True if the Training Set must be retrieve randomTrainingly	 
 	 */	
-	public double[][] getTrainingSet();
+	public double[][] getTrainingSet(boolean ramdom);
 
 	/**
 	 *
