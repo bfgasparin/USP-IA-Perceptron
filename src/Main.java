@@ -62,7 +62,7 @@ public class Main
 		// System.out.println("Numero de neuronios camada de saída: " + perceptron.nbrOutputNeurons);
 		// System.out.println();
         try{  
-            File file = new File(logPath + "problem_"+problemType+"_" + date.getTime() + ".txt"); 
+            File file = new File(logPath + "problem_"+problemType+"_" + date.getTime() + ".csv"); 
 	        FileOutputStream fOut = new FileOutputStream(file);
 	        BufferedOutputStream out = new BufferedOutputStream(fOut);  
 			while(!stop){
