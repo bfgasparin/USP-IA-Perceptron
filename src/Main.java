@@ -15,7 +15,7 @@ public class Main
 		boolean stop = false; 
 		int epoca = 1;
 		int problemType = Integer.parseInt((args[6]));
-		double error = 0; 
+		double totalSquaredError; 
 		double[] result; 
 		Main main = new Main();
 		NeuralNetDataHandlerInterface handler;
@@ -49,7 +49,7 @@ public class Main
 		// System.out.println();
 
 		while(!stop){
-			error = 0;
+			totalSquaredError = 0;
 			System.out.print("Época: "+epoca++ + " ... ");
 			for (int i = 0; i < trainingSet.length; i++) {
 				// System.out.println("------------------------------------");
@@ -59,18 +59,18 @@ public class Main
 				//Treina a rede reural				
 
 				result = perceptron.train(trainingSet[i], targets[i]);	
-				error += main.calculateSquaredError(result, targets[i]);
+				totalSquaredError += main.calculateSquaredError(result, targets[i]);
 				// System.out.println("  Pesos camada escondida: ");
 				// perceptron.printWeights(perceptron.hiddenWeights);
 				// System.out.println("  Pesos camada saída: (depois do treinamento)");
 				// perceptron.printWeights(perceptron.outputWeights);
 				// System.out.println("------------------------------------");
 				//System.out.println("");
-			}	
-			System.out.print("  Erro quadrado total: " + error);
+			}
+			System.out.print("  Erro quadrado total: " + totalSquaredError);
 			System.out.println("");
 			//System.out.println("");
-			if(epoca == 3000) stop = true;
+			if(totalSquaredError < 0.05) stop = true;
 		}
 	}
 
