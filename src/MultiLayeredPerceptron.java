@@ -9,7 +9,7 @@ import java.util.Random;
  * (apenas uma camada escondida)
  *
  */
-public class MultiLayeredPerceptron //implements PerceptronInterface
+public class MultiLayeredPerceptron implements PerceptronInterface
 {
 	public int nbrInputNeurons; // número de neurônios na camada de entrada
 	public int nbrOutputNeurons; // número de neurônios na camada de saída
@@ -34,10 +34,18 @@ public class MultiLayeredPerceptron //implements PerceptronInterface
 	  */
 	public double[][] targets;
 
+	public boolean random;
+
 	/**
 	 * Resultado (sinais) dos reurônio da camada escondida 
 	 */
 	protected double[] hiddenResult; 
+
+	public void randomWeights()
+	{
+		this.randomWeights(this.hiddenWeights);
+		this.randomWeights(this.outputWeights);
+	}
 
 	/**
 	 * Construtor
@@ -60,7 +68,7 @@ public class MultiLayeredPerceptron //implements PerceptronInterface
 		 * que deverá ser corrigido durante a etapa de treinamento
 		 */
 	    this.hiddenWeights = new double[nbrHiddenNeurons][nbrInputNeurons];
-	    this.randomWeights(this.hiddenWeights);
+	    
 		/**
 		 * Constroi a matriz de pesos entre a camada escondida e a camada de saída
 		 * É necessário uma matriz carteziano pois cada neurônio da camada escondida
@@ -68,7 +76,7 @@ public class MultiLayeredPerceptron //implements PerceptronInterface
 		 * que deverá ser corrigido durante a etapa de treinamento
 		 */
 	    this.outputWeights = new double[nbrOutputNeurons][nbrHiddenNeurons];
-	    this.randomWeights(this.outputWeights);
+	    
 		/**
 		 * Constroi a matriz de pesos da bias da camada escondida
 		 */
@@ -97,14 +105,24 @@ public class MultiLayeredPerceptron //implements PerceptronInterface
 	/**
 	 * @inheritDoc
 	 */	
-	public double train(double[] pattern, double[] target)
+	public double[] train(double[] pattern, double[] target)
 	{
 		 //executa a fase feedForward
 		 double[] result = this.feedForward(pattern);
 		 this.backPropagation(pattern, this.hiddenResult, result, target);	
 
-		 return this.calculateSquaredError(result, target);
+		 return result;
 	}
+
+	/**
+	 * @inheritDoc
+	 */	
+	public double[] execute(double[] pattern)
+	{
+		 //executa a fase feedForward
+		 return this.feedForward(pattern);
+	}
+
 
 	/**
 	 * Executa a fase feedForward do Perceptron 
@@ -314,27 +332,6 @@ public class MultiLayeredPerceptron //implements PerceptronInterface
 
 	}
 
-
-	/**
-	 * Calcula o erro quadrado
-	 *
-	 * @param double[]  result		A resposta (sinal) da rede
-	 * @param double[]  target		A unidade de saída esperada para a unidade de entrada
-	 * @return O erro quadrado
-	 */
-	protected double calculateSquaredError(double[] result, double[] target)
-	{		
-		double totalRrror = 0;
-		double error = 0;
-	 	for (int i = 0; i < result.length; i++) {
-	 			error += target[i]-result[i];
-	 			totalRrror += error*error;
-		}
-
-		return totalRrror;
-	}
-
-
 	/**
 	 * Calcula o termo de erro de informação de acordo com o resultado gerado, e uma classificão de entrada passada
 	 *
@@ -366,42 +363,5 @@ public class MultiLayeredPerceptron //implements PerceptronInterface
 		}
 
 		return adjustmentTerms;
-	}
-
-	public static void main(String args[]) throws Exception
-	{
-		boolean stop = false; 
-		int epoca = 1;
-		int problemType = Integer.parseInt((args[6]));
-		double error = 9; 
-
-		NeuralNetDataHandlerInterface handler;
-
-		//Idenfitica qual é o problema para escolher qual Filehandler irá utilizar
-		if(0 == problemType){
-		 	handler = new BreastCancerWisconsinFileHandler(args[0], !(0 == Integer.parseInt((args[7]))));
-		}else if(1 == problemType){
-			throw new Exception("O problema Optical Recognition of Handwritten Digits ainda não está inplementado");
-		}else{
-			throw new Exception("Você deve passar 0 ou 1 no argumento de Tipo de Problema");
-		}
-
-		//Busca os dados de treinamento
-		double[][] trainingSet = handler.getTrainingSet();
-		double[][] targets = handler.getTrainingTargetsSet();
-
-		//Inicia a rede neural
-		MultiLayeredPerceptron perceptron = new MultiLayeredPerceptron(trainingSet[0].length, targets[0].length, Double.parseDouble(args[3]), Integer.parseInt(args[4]));
-		
-
-		while(!stop){
-			for (int i = 0; i < trainingSet.length; i++) {
-				// perceptron.printWeights(perceptron.outputWeights);
-
-				//Treina a rede reural				
-				error = perceptron.train(trainingSet[i], targets[i]);	
-			}	
-			if(epoca == 3000) stop = true;
-		}
 	}
 }
