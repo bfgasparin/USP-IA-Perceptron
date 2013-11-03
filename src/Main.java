@@ -23,7 +23,9 @@ public class Main
 		boolean stop = false; 
 		int epoca = 1;
 		int problemType = Integer.parseInt((args[6]));
-		double totalSquaredError; 
+		double traTotalSquaredError; 
+		double valTotalSquaredError; 
+		double tesTotalSquaredError; 
 		double[] result; 
 		Main main = new Main();
 		NeuralNetDataHandlerInterface handler;
@@ -42,11 +44,14 @@ public class Main
 		}
 
 		//Busca os dados de treinamento
-		double[][] trainingSet = handler.getTrainingSet(randomTraining);
-		double[][] targets = handler.getTrainingTargetsSet();
+		double[][] validationSet = handler.getValidationSet();
+		double[][] validationTargets = handler.getValidationTargetsSet();
+		double[][] testSet = handler.getTestSet();
+		double[][] testTargets = handler.getTestTargetsSet();
+
 
 		//Inicia a rede neural
-		MultiLayeredPerceptron perceptron = new MultiLayeredPerceptron(trainingSet[0].length, targets[0].length, Double.parseDouble(args[3]), Integer.parseInt(args[4]));
+		MultiLayeredPerceptron perceptron = new MultiLayeredPerceptron(validationSet[0].length, validationTargets[0].length, Double.parseDouble(args[3]), Integer.parseInt(args[4]));
 		if(!(0 == Integer.parseInt((args[5])))){
 			perceptron.randomWeights();
 		}	
@@ -61,19 +66,42 @@ public class Main
 	        FileOutputStream fOut = new FileOutputStream(file);
 	        BufferedOutputStream out = new BufferedOutputStream(fOut);  
 			while(!stop){
-				totalSquaredError = 0;
-				System.out.print("Época: "+epoca++ + " ... ");
+				traTotalSquaredError = 0;
+				valTotalSquaredError = 0;
+				tesTotalSquaredError = 0;
+				System.out.println("-----------------------------");
+				System.out.println("Época: "+epoca++ + " ...  ");
+				System.out.print("   Treinamento...   ");
+				double[][] trainingSet = handler.getTrainingSet(randomTraining);
+				double[][] targets = handler.getTrainingTargetsSet();
 				for (int i = 0; i < trainingSet.length; i++) {
 					//Treina a rede reural				
 					result = perceptron.train(trainingSet[i], targets[i]);	
-					totalSquaredError += main.calculateSquaredError(result, targets[i]);
+					traTotalSquaredError += main.calculateSquaredError(result, targets[i]);
 				}
-				System.out.print("  Erro quadrado total: " + totalSquaredError);
+				System.out.print("  Erro quadrado total: " + traTotalSquaredError);
 				System.out.println("");
-            	out.write(String.valueOf(totalSquaredError+";").getBytes());
+				System.out.print("   Validação...     ");
+				for (int i = 0; i < validationSet.length; i++) {
+					//Treina a rede reural				
+					result = perceptron.train(validationSet[i], validationTargets[i]);	
+					valTotalSquaredError += main.calculateSquaredError(result, validationTargets[i]);
+				}
+				System.out.print("  Erro quadrado total: " + valTotalSquaredError);
+				System.out.println("");
+				System.out.print("   Teste...         ");
+				for (int i = 0; i <testSet.length; i++) {
+					//Treina a rede reural				
+					result = perceptron.train(testSet[i], testTargets[i]);	
+					tesTotalSquaredError += main.calculateSquaredError(result, testTargets[i]);
+				}
+				System.out.print("  Erro quadrado total: " + tesTotalSquaredError);
+				System.out.println("");
+				System.out.println("");
+            	out.write(String.valueOf(tesTotalSquaredError+";").getBytes());
             	out.write(13);
 				//System.out.println("");
-				if(totalSquaredError < 0.05) stop = true;
+				if(valTotalSquaredError < 0.05) stop = true;
 			}
             out.close();  
 

@@ -37,3 +37,5 @@ O tipo de problema é necessário para o algoritmo saber como será a leitura do
 No caso do problema Breast Cancer Wisconsin a classificação é binária, já no Optical Recognition of Handwritten Digits a 
 classificação é multi-classe.
 
+**Obs:** 
+  Os logs gerados são separados por problema (tipo 1, tipo 2, ...) e data. Cada log é gerado num arquivo de nome <tipo_problema>_<data_em_milissegundos>.txt. Assim você pode rever todos os seus logs anteriores. 
