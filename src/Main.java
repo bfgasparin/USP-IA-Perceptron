@@ -84,7 +84,7 @@ public class Main
 				System.out.print("   Validação...     ");
 				for (int i = 0; i < validationSet.length; i++) {
 					//Treina a rede reural				
-					result = perceptron.train(validationSet[i], validationTargets[i]);	
+					result = perceptron.execute(validationSet[i]);	
 					valTotalSquaredError += main.calculateSquaredError(result, validationTargets[i]);
 				}
 				System.out.print("  Erro quadrado total: " + valTotalSquaredError);
@@ -92,7 +92,7 @@ public class Main
 				System.out.print("   Teste...         ");
 				for (int i = 0; i <testSet.length; i++) {
 					//Treina a rede reural				
-					result = perceptron.train(testSet[i], testTargets[i]);	
+					result = perceptron.execute(testSet[i]);	
 					tesTotalSquaredError += main.calculateSquaredError(result, testTargets[i]);
 				}
 				System.out.print("  Erro quadrado total: " + tesTotalSquaredError);
@@ -101,6 +101,7 @@ public class Main
             	out.write(String.valueOf(tesTotalSquaredError+";").getBytes());
             	out.write(13);
 				//System.out.println("");
+				//if(valTotalSquaredError < 0.05) stop = true;
 				if(valTotalSquaredError < 0.05) stop = true;
 			}
             out.close();  
@@ -129,54 +130,4 @@ public class Main
 
 		return totalRrror;
 	}
-	
-	public static void print(BufferedOutputStream stream, String data) throws Exception{  
-
-    }  
-    
-    // public static void print(File file, double[] neurons) throws Exception{  
-    //     try{  
-    //         FileOutputStream fOut = new FileOutputStream(file);
-    //         BufferedOutputStream out = new BufferedOutputStream(fOut);  
-
-    //         for(int index = 0; index < neurons.length; index++){
-    //             out.write(String.valueOf(neurons[index]).getBytes());
-    //         }  
-    //         out.close();  
-
-    //     }catch(Exception e){  
-    //         System.out.println("ERRO: " + e.getMessage());
-    //         throw e;  
-    //     }  
-    // }  
-    
-    // public static void print(FileOutputStream stream, double[] neurons) throws Exception{  
-    //     try{  
-    //         BufferedOutputStream out = new BufferedOutputStream(stream);  
-
-    //         for(int index = 0; index < neurons.length; index++){
-    //             out.write(String.valueOf(neurons[index]).getBytes());
-    //         }  
-    //         out.close();  
-
-    //     }catch(Exception e){ 
-    //         System.out.println("ERRO: " + e.getMessage()); 
-    //         throw e;  
-    //     }  
-    // } 
-    
-    // public void print(BufferedOutputStream stream, double[] neurons) throws Exception{
-    //     try{
-    //         for(int index = 0; index < neurons.length; index++){
-    //             stream.write(String.valueOf(neurons[index]).getBytes());
-    //         }  
-    //         stream.close();  
-
-    //     }catch(Exception e){ 
-    //         System.out.println("ERRO: " + e.getMessage()); 
-    //         throw e; 
-    //     }  
-    // }
-
-
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 {
 
-	public static final int NUMBER_OF_ATTRIBUTES = 2;
+	public static final int NUMBER_OF_ATTRIBUTES = 30;
 
 	protected double[][] trainingSet;
 	protected double[][] trainingTargetSet;
@@ -119,7 +119,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 		while (iterator.hasNext()) {
 			
 			String[] attributes = iterator.next().split(",");	
-			double[] input = {Double.parseDouble(attributes[1])};
+			double[] input = {(attributes[1] == "M") ? 0.0 : 1.0 };
 			targetSet[inputIndex] = input;
 			inputIndex++;
 		}
@@ -142,6 +142,9 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 				input[j - 2] = Double.parseDouble(attributes[j]);
 
 			}
+
+			//normaliza os dados de entrada
+			input = this.normalizeByStandardDeviation(1, 0, input);
 
 			patternSet[inputIndex] = input;
 			inputIndex++;

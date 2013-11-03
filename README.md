@@ -29,7 +29,7 @@ A class Main receve dois parâmetros:
   * arg[8] Caminho do diretório onde será salvo os arquivos de logs. If ommited, the log will be saved on current dir.
 
 Exemplo:
-  `$ java -cp bin/ Perceptron Resources/trainData.txt Resources/valData.txt Resources/testData.txt 0.4 5 0 0 1` logs/
+  `$ java -cp bin/ Main Resources/trainData.txt Resources/valData.txt Resources/testData.txt 0.4 5 0 0 1` logs/
   
 No exemplo acima, o perceptron irá rodar com a taxa de aprendizado inicial 0.4, com 5 neurônios na camada escondida, com os pesos dos axiomas 0, resolvendo o problema Breast Cancer Wisconsin, com dados de treinamento randômicos para cada época e irá gravar os arquivos de log no diretório logs (sendo a raiz o diretório corrente).
 

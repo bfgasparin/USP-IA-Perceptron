@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * 
  * Esta Classe é um esqueleto para extrair dados da rede reural de um arquivo fisíco
  */
-public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerInterface
+public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerInterface, AttributeNormalizerInterface
 {
 	protected List<String> trainingData;
 	protected List<String> validationData;
@@ -87,4 +87,54 @@ public abstract class NeuralNetFileDataHandler implements NeuralNetDataHandlerIn
     {
     	System.out.println(String.valueOf(msg));
     }
+
+   public double[] normalizeByStandardDeviation(int maximumInterval, int minimumInterval, double[] pattern)
+   {
+        double standardDeviation = this.getStandardDeviation(pattern);
+
+        double averageValue = (maximumInterval + maximumInterval)/2;
+
+        double[] output = new double[pattern.length];
+        
+        for (int index = 0; index < pattern.length; index++)
+        {
+            double value = pattern[index];
+
+            output[index] = (value - averageValue) / standardDeviation;
+        }
+
+        return output;
+    }
+
+   protected double getStandardDeviation(double[] inputs)
+    {
+        int count = 0;
+        double sum = 0;
+        double average = this.getAverage(inputs);
+
+        for (int column = 0; column < inputs.length; column++)
+        {
+            double result = inputs[column] - average;
+            sum = sum + (result * result);
+            count++;
+        }
+
+        return Math.sqrt(((double)1 / (double)count) * sum);
+    }
+   protected double getAverage(double[] inputs)
+    {
+        int count = 0;
+        double sum = 0;
+
+        for (int column = 0; column < inputs.length; column++)
+        {
+            sum += inputs[column];
+            count++;
+        }
+
+        return sum / (double)count;
+    }
+
+    
+
 }
