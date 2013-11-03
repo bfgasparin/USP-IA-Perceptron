@@ -16,15 +16,15 @@ interface PerceptronInterface {
 	 *
 	 * @param double[]  pattern		Uma unidade de entrada
 	 * @param double[]  target		A unidade de saída esperada para a unidade de entrada
-	 * @return Um array com as respostas (sinais) dos neurônios da camada saída
+	 * @return O erro quadrado da unidade de entrada
 	 */
-	public double[] train(double[] pattern, double[] target);
+	public double train(double[] pattern, double[] target);
 
 	/**
 	 * Executa a rede com com a unidade de entrada (pattern).  
 	 * 
 	 * @param double[]  pattern		Uma unidade de entrada
-	 * @return Um array com as respostas (sinais) dos neurônios da camada saída
+	 * @return O erro quadrado da unidade de entrada
 	 */
-	public double[] execute(double[] pattern);
+	public double execute(double[] pattern);
 }
