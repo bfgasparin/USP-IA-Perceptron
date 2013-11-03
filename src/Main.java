@@ -1,7 +1,8 @@
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.lang.Math;
-import java.util.Random;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
+import java.util.Date;
 
 /**
  * 
@@ -12,6 +13,13 @@ public class Main
 {
 	public static void main(String args[]) throws Exception
 	{
+		String logPath;
+
+		try{
+			 logPath = args[8];
+		}catch(ArrayIndexOutOfBoundsException e){
+			logPath = "";
+		}
 		boolean stop = false; 
 		int epoca = 1;
 		int problemType = Integer.parseInt((args[6]));
@@ -20,6 +28,7 @@ public class Main
 		Main main = new Main();
 		NeuralNetDataHandlerInterface handler;
 		boolean randomTraining = !(0 == Integer.parseInt((args[7])));
+		java.util.Date date = new java.util.Date();
 
 		//Idenfitica qual é o problema para escolher qual Filehandler irá utilizar
 		if(0 == problemType){
@@ -47,31 +56,31 @@ public class Main
 		// System.out.println("Numero de neuronios camada escondida: " + perceptron.nbrHiddenNeurons);
 		// System.out.println("Numero de neuronios camada de saída: " + perceptron.nbrOutputNeurons);
 		// System.out.println();
-
-		while(!stop){
-			totalSquaredError = 0;
-			System.out.print("Época: "+epoca++ + " ... ");
-			for (int i = 0; i < trainingSet.length; i++) {
-				// System.out.println("------------------------------------");
-				// System.out.println("  Pesos camada saída: (antes do treinamento) ");
-				// perceptron.printWeights(perceptron.outputWeights);
-
-				//Treina a rede reural				
-
-				result = perceptron.train(trainingSet[i], targets[i]);	
-				totalSquaredError += main.calculateSquaredError(result, targets[i]);
-				// System.out.println("  Pesos camada escondida: ");
-				// perceptron.printWeights(perceptron.hiddenWeights);
-				// System.out.println("  Pesos camada saída: (depois do treinamento)");
-				// perceptron.printWeights(perceptron.outputWeights);
-				// System.out.println("------------------------------------");
+        try{  
+            File file = new File(logPath + "problem_"+problemType+"_" + date.getTime() + ".txt"); 
+	        FileOutputStream fOut = new FileOutputStream(file);
+	        BufferedOutputStream out = new BufferedOutputStream(fOut);  
+			while(!stop){
+				totalSquaredError = 0;
+				System.out.print("Época: "+epoca++ + " ... ");
+				for (int i = 0; i < trainingSet.length; i++) {
+					//Treina a rede reural				
+					result = perceptron.train(trainingSet[i], targets[i]);	
+					totalSquaredError += main.calculateSquaredError(result, targets[i]);
+				}
+				System.out.print("  Erro quadrado total: " + totalSquaredError);
+				System.out.println("");
+            	out.write(String.valueOf(totalSquaredError+";").getBytes());
+            	out.write(13);
 				//System.out.println("");
+				if(totalSquaredError < 0.05) stop = true;
 			}
-			System.out.print("  Erro quadrado total: " + totalSquaredError);
-			System.out.println("");
-			//System.out.println("");
-			if(totalSquaredError < 0.05) stop = true;
-		}
+            out.close();  
+
+        }catch(Exception e){  
+            System.out.println("ERRO: " + e.getMessage());
+            throw e;
+        }  
 	}
 
 	/**
@@ -92,5 +101,54 @@ public class Main
 
 		return totalRrror;
 	}
+	
+	public static void print(BufferedOutputStream stream, String data) throws Exception{  
+
+    }  
+    
+    // public static void print(File file, double[] neurons) throws Exception{  
+    //     try{  
+    //         FileOutputStream fOut = new FileOutputStream(file);
+    //         BufferedOutputStream out = new BufferedOutputStream(fOut);  
+
+    //         for(int index = 0; index < neurons.length; index++){
+    //             out.write(String.valueOf(neurons[index]).getBytes());
+    //         }  
+    //         out.close();  
+
+    //     }catch(Exception e){  
+    //         System.out.println("ERRO: " + e.getMessage());
+    //         throw e;  
+    //     }  
+    // }  
+    
+    // public static void print(FileOutputStream stream, double[] neurons) throws Exception{  
+    //     try{  
+    //         BufferedOutputStream out = new BufferedOutputStream(stream);  
+
+    //         for(int index = 0; index < neurons.length; index++){
+    //             out.write(String.valueOf(neurons[index]).getBytes());
+    //         }  
+    //         out.close();  
+
+    //     }catch(Exception e){ 
+    //         System.out.println("ERRO: " + e.getMessage()); 
+    //         throw e;  
+    //     }  
+    // } 
+    
+    // public void print(BufferedOutputStream stream, double[] neurons) throws Exception{
+    //     try{
+    //         for(int index = 0; index < neurons.length; index++){
+    //             stream.write(String.valueOf(neurons[index]).getBytes());
+    //         }  
+    //         stream.close();  
+
+    //     }catch(Exception e){ 
+    //         System.out.println("ERRO: " + e.getMessage()); 
+    //         throw e; 
+    //     }  
+    // }
+
 
 }

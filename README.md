@@ -25,12 +25,13 @@ A class Main receve dois parâmetros:
   * arg[5] Inicialização de pesos: 0 para iniciar com todos os pesos com 0, 1 para iniciar todos os pesos com números aleatórios
   * arg[6] Tipo do Problema: 0 para problema binário (Breast Cancer Wisconsin), 1 para problema multi-classe (Optical Recognition of 
   Handwritten Digits)
-  * arg[7] Randomicidade dos dados de Trainamento. 1 para que os dados de treinamento seja randomizados em cada época. 0 para utilizar a mesma ordem dos dados de treinamento em todas as épocas
+  * arg[7] Randomicidade dos dados de Trainamento. 1 para que os dados de treinamento seja randomizados em cada época. 0 para utilizar 
+  * arg[8] Caminho do diretório onde será salvo os arquivos de logs. If ommited, the log will be saved on current dir.
 
 Exemplo:
-  `$ java -cp bin/ Perceptron Resources/trainData.txt Resources/valData.txt Resources/testData.txt 0.4 5 0 0 1`
+  `$ java -cp bin/ Perceptron Resources/trainData.txt Resources/valData.txt Resources/testData.txt 0.4 5 0 0 1` logs/
   
-No exemplo acima, o perceptron irá rodar com a taxa de aprendizado inicial 0.4, com 5 neurônios na camada escondida, com os pesos dos axiomas 0, resolvendo o problema Breast Cancer Wisconsin e com dados de treinamento randômicos para cada época.
+No exemplo acima, o perceptron irá rodar com a taxa de aprendizado inicial 0.4, com 5 neurônios na camada escondida, com os pesos dos axiomas 0, resolvendo o problema Breast Cancer Wisconsin, com dados de treinamento randômicos para cada época e irá gravar os arquivos de log no diretório logs (sendo a raiz o diretório corrente).
 
 O tipo de problema é necessário para o algoritmo saber como será a leitura dos arquivos de entradas e como será a classificação dos dados. 
 No caso do problema Breast Cancer Wisconsin a classificação é binária, já no Optical Recognition of Handwritten Digits a 
