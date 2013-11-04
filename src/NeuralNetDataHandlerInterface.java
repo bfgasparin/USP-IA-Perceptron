@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 /**
  * 
- * * Interface para manipulação de dados para a rede neural
+ * Interface para manipulação de dados para a rede neural
  */
 interface NeuralNetDataHandlerInterface 
 {

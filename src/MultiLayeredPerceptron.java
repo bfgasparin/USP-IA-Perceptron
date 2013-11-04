@@ -207,13 +207,6 @@ public class MultiLayeredPerceptron implements PerceptronInterface
 		return yin;
 	}
 
-	/**
-	 * calcula da função de ativação 
-	 */
-	protected double calculateActivationFunction(double entry)
-	{
-			return 1/(1+Math.exp(-entry));
-	}
 
 	/**
 	 * Executa a fase backPropagation do Perceptron 
@@ -331,22 +324,6 @@ public class MultiLayeredPerceptron implements PerceptronInterface
 		}
 
 	}
-
-	/**
-	 * Calcula o termo de erro de informação de acordo com o resultado gerado, e uma classificão de entrada passada
-	 *
-	 * @param double  result		      O resultado (sinal) alcançado
-	 * @param double  classification	  Classificação referente ao padrão de entrada
-	 * @return O termo de erro de informação
-	 */
-	protected double calculateInformationErrorTerm(double result, double classification)
-	{
-		//calcula a derivada da função de ativação utilizada para calcular o resultado alcaçado (result)
-		double derivative = result*(1-result);
-
-		return classification*derivative;
-	}
-
 	/**
 	 * Calcula o termo de erro de correção de pesos para cada unidade de entrada (pattern) 
 	 *
@@ -364,4 +341,28 @@ public class MultiLayeredPerceptron implements PerceptronInterface
 
 		return adjustmentTerms;
 	}
+
+	/**
+	 * Calcula o termo de erro de informação de acordo com o resultado gerado, e uma classificão de entrada passada
+	 *
+	 * @param double  result		      O resultado (sinal) alcançado
+	 * @param double  classification	  Classificação referente ao padrão de entrada
+	 * @return O termo de erro de informação
+	 */
+	protected double calculateInformationErrorTerm(double result, double classification)
+	{
+		//calcula a derivada da função de ativação utilizada para calcular o resultado alcaçado (result)
+		double derivative = result*(1-result);
+
+		return classification*derivative;
+	}
+
+	/**
+	 * calcula da função de ativação 
+	 */
+	protected double calculateActivationFunction(double entry)
+	{
+			return 1/(1+Math.exp(-entry));
+	}
+
 }

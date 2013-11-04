@@ -56,19 +56,19 @@ public class Main
 			perceptron.randomWeights();
 		}	
 		
-		// System.out.println("Taxa de aprendizado: " + perceptron.learningFactor);
-		// System.out.println("Numero de neuronios camada de entrada: " + perceptron.nbrInputNeurons);
-		// System.out.println("Numero de neuronios camada escondida: " + perceptron.nbrHiddenNeurons);
-		// System.out.println("Numero de neuronios camada de saída: " + perceptron.nbrOutputNeurons);
-		// System.out.println();
+		System.out.println("Taxa de aprendizado: " + perceptron.learningFactor);
+		System.out.println("Numero de neuronios camada de entrada: " + perceptron.nbrInputNeurons);
+		System.out.println("Numero de neuronios camada escondida: " + perceptron.nbrHiddenNeurons);
+		System.out.println("Numero de neuronios camada de saída: " + perceptron.nbrOutputNeurons);
+		System.out.println();
         try{  
             File file = new File(logPath + "problem_"+problemType+"_" + date.getTime() + ".csv"); 
 	        FileOutputStream fOut = new FileOutputStream(file);
 	        BufferedOutputStream out = new BufferedOutputStream(fOut);  
+			tesTotalSquaredError = 0;
 			while(!stop){
 				traTotalSquaredError = 0;
 				valTotalSquaredError = 0;
-				tesTotalSquaredError = 0;
 				System.out.println("-----------------------------");
 				System.out.println("Época: "+epoca++ + " ...  ");
 				System.out.print("   Treinamento...   ");
@@ -77,7 +77,11 @@ public class Main
 				for (int i = 0; i < trainingSet.length; i++) {
 					//Treina a rede reural				
 					result = perceptron.train(trainingSet[i], targets[i]);	
+					// System.out.println("");
+					// System.out.println("   Resposta adiquirida...   " + result[0]);
+					// System.out.println("   Resposta esperada...     " + targets[i][0]);
 					traTotalSquaredError += main.calculateSquaredError(result, targets[i]);
+					// System.out.println("");
 				}
 				System.out.print("  Erro quadrado total: " + traTotalSquaredError);
 				System.out.println("");
@@ -89,22 +93,24 @@ public class Main
 				}
 				System.out.print("  Erro quadrado total: " + valTotalSquaredError);
 				System.out.println("");
-				System.out.print("   Teste...         ");
-				for (int i = 0; i <testSet.length; i++) {
-					//Treina a rede reural				
-					result = perceptron.execute(testSet[i]);	
-					tesTotalSquaredError += main.calculateSquaredError(result, testTargets[i]);
-				}
-				System.out.print("  Erro quadrado total: " + tesTotalSquaredError);
 				System.out.println("");
-				System.out.println("");
-            	out.write(String.valueOf(tesTotalSquaredError+";").getBytes());
-            	out.write(13);
-				//System.out.println("");
-				//if(valTotalSquaredError < 0.05) stop = true;
+
 				if(valTotalSquaredError < 0.05) stop = true;
+				//if(epoca == 400) stop = true;
 			}
             out.close();  
+			System.out.println("");
+			System.out.print("   Teste...         ");
+			for (int i = 0; i <testSet.length; i++) {
+				//Treina a rede reural				
+				result = perceptron.execute(testSet[i]);	
+				tesTotalSquaredError += main.calculateSquaredError(result, testTargets[i]);
+			}
+			System.out.print("  Erro quadrado total: " + tesTotalSquaredError);
+			System.out.println("");
+			System.out.println("");
+        	out.write(String.valueOf(tesTotalSquaredError+";").getBytes());
+        	out.write(13);
 
         }catch(Exception e){  
             System.out.println("ERRO: " + e.getMessage());

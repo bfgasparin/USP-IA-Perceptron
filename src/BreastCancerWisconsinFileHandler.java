@@ -119,7 +119,7 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 		while (iterator.hasNext()) {
 			
 			String[] attributes = iterator.next().split(",");	
-			double[] input = {(attributes[1] == "M") ? 0.0 : 1.0 };
+			double[] input = {(attributes[1].equals("M")) ? 0.0 : 1.0 };
 			targetSet[inputIndex] = input;
 			inputIndex++;
 		}
@@ -142,7 +142,6 @@ public class BreastCancerWisconsinFileHandler extends NeuralNetFileDataHandler
 				input[j - 2] = Double.parseDouble(attributes[j]);
 
 			}
-
 			//normaliza os dados de entrada
 			input = this.normalizeByStandardDeviation(1, 0, input);
 
