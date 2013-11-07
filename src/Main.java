@@ -39,6 +39,8 @@ public class Main
 			throw new Exception("O problema Optical Recognition of Handwritten Digits ainda não está inplementado");
 		}else if(2 == problemType){
 		 	handler = new XORFileHandler(args[0], args[1], args[2]);	
+		}else if(3 == problemType){
+		 	handler = new ANDFileHandler(args[0], args[1], args[2]);	
 		}else{
 			throw new Exception("Você deve passar 0 ou 1 no argumento de Tipo de Problema");
 		}
@@ -62,10 +64,6 @@ public class Main
 		System.out.println("Numero de neuronios camada de saída: " + perceptron.nbrOutputNeurons);
 		System.out.println();
         try{  
-            File file = new File(logPath + "problem_"+problemType+"_" + date.getTime() + ".csv"); 
-	        FileOutputStream fOut = new FileOutputStream(file);
-	        BufferedOutputStream out = new BufferedOutputStream(fOut);  
-			tesTotalSquaredError = 0;
 			while(!stop){
 				traTotalSquaredError = 0;
 				valTotalSquaredError = 0;
@@ -75,29 +73,9 @@ public class Main
 				double[][] trainingSet = handler.getTrainingSet(randomTraining);
 				double[][] targets = handler.getTrainingTargetsSet();
 				for (int i = 0; i < trainingSet.length; i++) {
-					// System.out.println("      Pesos camada escondida:" );
-					// System.out.println("      ----------------------------" );
-					// main.printWeights(perceptron.hiddenWeights, "       ");
-					// System.out.println("      ----------------------------" );
-
 					//Treina a rede reural				
 					result = perceptron.train(trainingSet[i], targets[i]);	
-					// System.out.println("      Pesos camada escondida: (depois do treinamento)" );
-					// System.out.println("      ----------------------------" );
-					// main.printWeights(perceptron.hiddenWeights, "       ");
-					// System.out.println("      ----------------------------" );
-
-
-					// System.out.println("      Termos de correção de erro: " );
-					// System.out.println("      ----------------------------" );
-					// main.printWeights(perceptron.hiddenWeightAdjustmentTerm, "       ");
-					// System.out.println("      ----------------------------" );
-
-					// System.out.println("");
-					// System.out.println("   Resposta adiquirida...   " + result[0]);
-					// System.out.println("   Resposta esperada...     " + targets[i][0]);
 					traTotalSquaredError += main.calculateSquaredError(result, targets[i]);
-					// System.out.println("");
 				}
 				System.out.print("  Erro quadrado total: " + traTotalSquaredError);
 				System.out.println("");
@@ -114,20 +92,30 @@ public class Main
 				if(valTotalSquaredError < 0.05) stop = true;
 				//if(epoca == 400) stop = true;
 			}
-            out.close();  
+            File file = new File(logPath + "problem_"+problemType+"_" + date.getTime() + ".csv"); 
+	        FileOutputStream fOut = new FileOutputStream(file);
+	        BufferedOutputStream out = new BufferedOutputStream(fOut);  
+			tesTotalSquaredError = 0;
+			double squareError = 9;
 			System.out.println("");
 			System.out.print("   Teste...         ");
+			out.write(String.valueOf("Erro Quadrado;").getBytes());
+    		out.write(13);
 			for (int i = 0; i <testSet.length; i++) {
 				//Treina a rede reural				
 				result = perceptron.execute(testSet[i]);	
+				squareError = main.calculateSquaredError(result, testTargets[i]);
 				tesTotalSquaredError += main.calculateSquaredError(result, testTargets[i]);
+		        out.write(String.valueOf(squareError+";").getBytes());
+		        out.write(13);
 			}
 			System.out.print("  Erro quadrado total: " + tesTotalSquaredError);
 			System.out.println("");
 			System.out.println("");
-        	out.write(String.valueOf(tesTotalSquaredError+";").getBytes());
-        	out.write(13);
-
+			out.write(13);
+			out.write(String.valueOf("Erro Quadrado Total;").getBytes());
+			out.write(String.valueOf(tesTotalSquaredError+";").getBytes());
+            out.close();  
         }catch(Exception e){  
             System.out.println("ERRO: " + e.getMessage());
             throw e;

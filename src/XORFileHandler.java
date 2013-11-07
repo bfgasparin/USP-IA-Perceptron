@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 
  * Esta classe extrai os dados necessários para a rede neural resolver o
- * o problema Breast Cancer Wisconsin.
+ * o problema do XOE
  */
 public class XORFileHandler extends NeuralNetFileDataHandler
 {
