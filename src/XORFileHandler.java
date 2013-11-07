@@ -142,7 +142,7 @@ public class XORFileHandler extends NeuralNetFileDataHandler
 				input[j - 1] = Double.parseDouble(attributes[j]);
 
 			}
-
+			
 			patternSet[inputIndex] = input;
 			inputIndex++;
 		}

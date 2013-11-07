@@ -3,11 +3,7 @@ USP-IA-Perceptron
 
 Implementação do Perceptron para o EP da disciplina IA
 
-**Obs:**
-  Todos os pesos dos axiomas do perceptron começam com peso 0, incluindo o peso da bias.
-  A Bias sempre tem valor 1.
-
-**Obs2:** 
+**Obs:** 
   Todo o código foi escrito em ingles para melhor leitura do mesmo e por ser considerado boa prática. Ele está todo cometado em português por se tratar de um trabalho acadêmico com objetivo de ser avaliado pela docente. 
 
 Radando o perceptron:
@@ -24,7 +20,7 @@ A class Main receve dois parâmetros:
   * arg[4] Número de neurônios da camada escondida TODO
   * arg[5] Inicialização de pesos: 0 para iniciar com todos os pesos com 0, 1 para iniciar todos os pesos com números aleatórios
   * arg[6] Tipo do Problema: 0 para problema binário (Breast Cancer Wisconsin), 1 para problema multi-classe (Optical Recognition of 
-  Handwritten Digits)
+  Handwritten Digits), 2 para o problema XOR, 3 para o problema AND
   * arg[7] Randomicidade dos dados de Trainamento. 1 para que os dados de treinamento seja randomizados em cada época. 0 para utilizar 
   * arg[8] Caminho do diretório onde será salvo os arquivos de logs. If ommited, the log will be saved on current dir.
 

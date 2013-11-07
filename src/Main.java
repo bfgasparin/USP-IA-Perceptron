@@ -75,8 +75,24 @@ public class Main
 				double[][] trainingSet = handler.getTrainingSet(randomTraining);
 				double[][] targets = handler.getTrainingTargetsSet();
 				for (int i = 0; i < trainingSet.length; i++) {
+					// System.out.println("      Pesos camada escondida:" );
+					// System.out.println("      ----------------------------" );
+					// main.printWeights(perceptron.hiddenWeights, "       ");
+					// System.out.println("      ----------------------------" );
+
 					//Treina a rede reural				
 					result = perceptron.train(trainingSet[i], targets[i]);	
+					// System.out.println("      Pesos camada escondida: (depois do treinamento)" );
+					// System.out.println("      ----------------------------" );
+					// main.printWeights(perceptron.hiddenWeights, "       ");
+					// System.out.println("      ----------------------------" );
+
+
+					// System.out.println("      Termos de correção de erro: " );
+					// System.out.println("      ----------------------------" );
+					// main.printWeights(perceptron.hiddenWeightAdjustmentTerm, "       ");
+					// System.out.println("      ----------------------------" );
+
 					// System.out.println("");
 					// System.out.println("   Resposta adiquirida...   " + result[0]);
 					// System.out.println("   Resposta esperada...     " + targets[i][0]);
@@ -117,6 +133,17 @@ public class Main
             throw e;
         }  
 	}
+
+	public void printWeights(double[][] weights, String spaces){
+		for (int i = 0; i < weights.length; i++) {
+			System.out.print(spaces); 	
+	 		for (int j = 0; j < weights[i].length; j++) {
+	 			System.out.print(weights[i][j] + ", "); 	
+			}
+			System.out.println(""); 	
+		}
+	}
+
 
 	/**
 	 * Calcula o erro quadrado
